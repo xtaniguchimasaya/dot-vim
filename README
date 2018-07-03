@@ -1,0 +1,3 @@
+To setup in your environment, just type:
+
+$ git clone --recursive https://github.com/asciian/dotvim ~/.vim
