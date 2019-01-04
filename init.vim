@@ -16,7 +16,7 @@ syntax on
 
 packadd minpac
 call minpac#init()
-call minpac#add('k-takata/minpac', {'type': 'opt'})
+call minpac#add('ta2gch/minpac', {'type': 'opt', 'submodule': 1})
 call minpac#add('w0rp/ale')
 call minpac#add('morhetz/gruvbox')
 call minpac#add('tyru/skk.vim')
