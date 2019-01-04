@@ -13,61 +13,19 @@ set t_Co=256
 set background=dark
 
 syntax on
+
+packadd minpac
+call minpac#init()
+call minpac#add('k-takata/minpac', {'type': 'opt'})
+call minpac#add('w0rp/ale')
+call minpac#add('morhetz/gruvbox')
+call minpac#add('tyru/skk.vim')
+
 colorscheme gruvbox
 
-"LSP
+let g:ale_linters = {
+ \ 'rust': ['cargo', 'rls']
+ \ }
 
-let g:lsp_signs_enabled = 1
-let g:lsp_diagonstics_echo_cursor = 1
-let g:lsp_signs_error = {'text': '!'}
-let g:lsp_signs_warning = {'text': '?'}
-let g:lsp_signs_hint = {'text': '*'}
-
-nnoremap <Leader>d :LspDefinition<CR>
-nnoremap <Leader>f :LspDocumentFormat<CR>
-nnoremap <Leader>e :LspDocumentDiagnostics<CR>
-nnoremap <Leader>r :LspRename<CR>
-
-"C/C++ (clangd)
-if executable('clangd')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-    autocmd FileType c setlocal omnifunc=lsp#complete
-    autocmd FileType cpp setlocal omnifunc=lsp#complete
-    autocmd FileType objc setlocal omnifunc=lsp#complete
-    autocmd FileType objcpp setlocal omnifunc=lsp#complete
-endif
-
-"Python (python-language-server)
-if executable('pyls')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-    autocmd FileType python setlocal omnifunc=lsp#complete
-endif
-
-"JavaScript/TypeScript
-if executable('typescript-language-server')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->['typescript-language-server']},
-        \ 'whitelist': ['typescript','javascript'],
-        \ })
-    autocmd FileType javascript setlocal omnifunc=lsp#complete
-    autocmd FileType typescript setlocal omnifunc=lsp#complete
-endif
-
-"Clojure (clojure-lsp)
-if executable('clojure-lsp')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'clojure-lsp',
-        \ 'cmd': {server_info->['clojure-lsp']},
-        \ 'whitelist': ['clojure'],
-        \ })
-    autocmd FileType clojure setlocal omnifunc=lsp#complete
-endif
+let g:ale_rust_rls_toolchain = 'stable'
+let g:ale_completion_enabled = 1
