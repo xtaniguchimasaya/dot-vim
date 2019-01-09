@@ -20,7 +20,7 @@ syntax on
 packadd minpac
 call minpac#init()
 call minpac#add('ta2gch/minpac', {'type': 'opt', 'submodule': 1})
-call minpac#add('w0rp/ale')
+call minpac#add('ta2gch/ale')
 call minpac#add('morhetz/gruvbox')
 if has("mac")
     call minpac#add('tyru/eskk.vim', {'do': 'curl https://api.github.com/repos/skk-dev/dict/tarball | tar -C ~/.vim -s "s%[^/]*%dict%" -zxf -'})
@@ -59,6 +59,7 @@ endif
 let g:ale_completion_enabled = 1
 let g:ale_linters = {'rust': ['cargo', 'rls']}
 let g:ale_rust_rls_toolchain = 'stable'
+let g:ale_fixers = {'asciidoc': ['textlint']}
 
 "ESKK
 let g:eskk#large_dictionary = '~/.config/nvim/dict/SKK-JISYO.L'
