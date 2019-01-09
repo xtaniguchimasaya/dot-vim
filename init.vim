@@ -71,7 +71,7 @@ call minpac#add('ta2gch/minpac', {'type': 'opt', 'submodule': 1})
 call minpac#add('ta2gch/ale')
 call minpac#add('morhetz/gruvbox')
 let g:cmd1 = '!' . Download('https://api.github.com/repos/skk-dev/dict/tarball', '-')
-         \ . '|' . Tar('-C', expand('~/.vim'), '--transform', 's/[^\/]*/dict/', '-zxf', '-')
+         \ . '|' . Tar('-C', expand('~/.vim'), '--transform', 's/[^\\/]*/dict/', '-zxf', '-')
          \ . '&& cat ~/.vim/dict/SKK-JISYO.L'
          \ . ' | iconv -f EUCJP -t UTF8'
          \ . ' | grep -v ";;"'
