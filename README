@@ -1,7 +1,7 @@
 To setup in your environment, just type:
 
-    $ git clone --recursive https://github.com/ta2gch/dotvim ~/.vim
+    $ git clone --recursive https://github.com/ta2gch/dot-vim ~/.vim
     $ vim +':call minpac#update()' +':q'
 
-    $ git clone --recursive https://github.com/ta2gch/dotvim ~/.config/nvim
+    $ git clone --recursive https://github.com/ta2gch/dot-vim ~/.config/nvim
     $ nvim +':call minpac#update()' +':q'
