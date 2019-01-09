@@ -1,6 +1,3 @@
 [submodule "pack/minpac/opt/minpac"]
 	path = pack/minpac/opt/minpac
 	url = git://github.com/ta2gch/minpac
-[submodule "dict"]
-	path = dict
-	url = git://github.com/skk-dev/dict
