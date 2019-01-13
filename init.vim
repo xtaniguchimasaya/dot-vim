@@ -20,7 +20,7 @@ tnoremap <ESC> <C-\><C-n>
 syntax on
 
 "Trans
-let g:trans_bin = expand('~/.vim/bin/trans')
+let g:trans_bin = expand('~/.vim/bin')
 
 "Undotree
 if has('persistent_undo')
@@ -30,7 +30,10 @@ endif
 
 "ALE
 let g:ale_completion_enabled = 1
-let g:ale_linters = {'rust': ['cargo', 'rls']}
+let g:ale_linters = {
+\   'rust': ['cargo', 'rls'],
+\   'python': ['pyls']
+\}
 let g:ale_rust_rls_toolchain = 'stable'
 let g:ale_fixers = {'asciidoc': ['textlint']}
 
@@ -47,6 +50,9 @@ try
 catch
   colorscheme default 
 endtry
+
+let g:rbpt_max = 7
+let g:rbpt_loadcmd_toggle = 0
 
 function! Download(src, dest)
     if has('mac')
@@ -68,7 +74,7 @@ endfunction
 packadd minpac
 call minpac#init()
 call minpac#add('ta2gch/minpac', {'type': 'opt', 'submodule': 1})
-call minpac#add('ta2gch/ale')
+call minpac#add('w0rp/ale')
 call minpac#add('morhetz/gruvbox')
 let g:cmd1 = '!' . Download('https://api.github.com/repos/skk-dev/dict/tarball', '-')
          \ . '|' . Tar('-C', expand('~/.vim'), '--transform', 's/[^\\/]*/dict/', '-zxf', '-')
@@ -83,12 +89,12 @@ call minpac#add('tyru/skk.vim', {'do': g:cmd1})
 call minpac#add('tpope/vim-surround')
 call minpac#add('sheerun/vim-polyglot')
 call minpac#add('vim-jp/vimdoc-ja')
-call minpac#add('mattn/webapi-vim')
 call minpac#add('mbbill/undotree')
 call minpac#add('scrooloose/nerdtree')
 call minpac#add('simeji/winresizer')
+call minpac#add('FrozenPigs/vim-hy')
 let g:cmd2 = '! ' . 'mkdir -p ' . fnamemodify(g:trans_bin, ':p:h')
-         \ . '&&' . Download('https://git.io/trans', g:trans_bin)
-         \ . '&& chmod +x ' . g:trans_bin
+         \ . '&&' . Download('https://git.io/trans', g:trans_bin . '/trans')
+         \ . '&& chmod +x ' . g:trans_bin . '/trans'
 call minpac#add('echuraev/translate-shell.vim', {'do': g:cmd2})
-
+call minpac#add('kien/rainbow_parentheses.vim')
