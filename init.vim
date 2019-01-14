@@ -70,6 +70,17 @@ function! Tar(...)
     endif
 endfunction
 
+function! Viml2Sexp() range
+    let l:viml_code = getline(a:firstline, a:lastline)
+    let l:vimlparser = vimlparser#import()
+    let l:reader = l:vimlparser.StringReader.new(viml_code)
+    let l:parser = l:vimlparser.VimLParser.new()
+    let l:compiler = l:vimlparser.Compiler.new()
+    let l:hy_code = l:compiler.compile(l:parser.parse(l:reader))
+    execute a:firstline.','.a:lastline.'delete'
+    echo join(l:hy_code, "\n")
+endfunction
+
 "minpac
 packadd minpac
 call minpac#init()
@@ -98,3 +109,4 @@ let g:cmd2 = '! ' . 'mkdir -p ' . fnamemodify(g:trans_bin, ':p:h')
          \ . '&& chmod +x ' . g:trans_bin . '/trans'
 call minpac#add('echuraev/translate-shell.vim', {'do': g:cmd2})
 call minpac#add('kien/rainbow_parentheses.vim')
+call minpac#add('vim-jp/vim-vimlparser')
