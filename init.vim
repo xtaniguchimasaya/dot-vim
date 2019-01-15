@@ -77,8 +77,11 @@ function! Viml2Sexp() range
     let l:parser = l:vimlparser.VimLParser.new()
     let l:compiler = l:vimlparser.Compiler.new()
     let l:hy_code = l:compiler.compile(l:parser.parse(l:reader))
+    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, '\([^"]\)\([agbsl]\):\(\w*\)', '\1#\2"\3"', 'g') })
+    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, 'let =', 'let', 'g') })
+    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, "'\\([^']*\\)'", '"\1"', 'g') })
     execute a:firstline.','.a:lastline.'delete'
-    echo join(l:hy_code, "\n")
+    call append(a:firstline, l:hy_code)
 endfunction
 
 "minpac
