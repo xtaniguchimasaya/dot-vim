@@ -54,22 +54,6 @@ endtry
 let g:rbpt_max = 7
 let g:rbpt_loadcmd_toggle = 0
 
-function! Download(src, dest)
-    if has('mac')
-        return 'curl -sL "' . a:src . '" -o "' . a:dest . '"'
-    elseif has('unix')
-        return 'wget -q "' . a:src . '" -O "' . a:dest . '"'
-    endif
-endfunction
-
-function! Tar(...)
-    if has('mac')
-        return 'gtar ' . join(a:000, ' ')
-    elseif has('unix')
-        return 'tar ' . join(a:000, ' ')
-    endif
-endfunction
-
 function! Viml2Sexp() range
     let l:viml_code = getline(a:firstline, a:lastline)
     let l:vimlparser = vimlparser#import()
@@ -77,39 +61,27 @@ function! Viml2Sexp() range
     let l:parser = l:vimlparser.VimLParser.new()
     let l:compiler = l:vimlparser.Compiler.new()
     let l:hy_code = l:compiler.compile(l:parser.parse(l:reader))
-    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, '\([^"]\)\([agbsl]\):\(\w*\)', '\1#\2"\3"', 'g') })
     let l:hy_code = map(l:hy_code, { index, code -> substitute(code, 'let =', 'let', 'g') })
     let l:hy_code = map(l:hy_code, { index, code -> substitute(code, "'\\([^']*\\)'", '"\1"', 'g') })
+    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, '\([^"]\)\([agbsl]\):\(\w*\)', '\1#\2"\3"', 'g') })
     execute a:firstline.','.a:lastline.'delete'
     call append(a:firstline, l:hy_code)
 endfunction
 
-"minpac
-packadd minpac
-call minpac#init()
-call minpac#add('ta2gch/minpac', {'type': 'opt', 'submodule': 1})
-call minpac#add('w0rp/ale')
-call minpac#add('morhetz/gruvbox')
-let g:cmd1 = '!' . Download('https://api.github.com/repos/skk-dev/dict/tarball', '-')
-         \ . '|' . Tar('-C', expand('~/.vim'), '--transform', 's/[^\\/]*/dict/', '-zxf', '-')
-         \ . '&& cat ~/.vim/dict/SKK-JISYO.L'
-         \ . ' | iconv -f EUCJP -t UTF8'
-         \ . ' | grep -v ";;"'
-         \ . ' | sort'
-         \ . ' | tee ' . g:skk_large_jisyo
-         \ . ' > ' . g:eskk#large_dictionary
-"call minpac#add('tyru/eskk.vim', {'do': g:cmd1})
-call minpac#add('tyru/skk.vim', {'do': g:cmd1})
-call minpac#add('tpope/vim-surround')
-call minpac#add('sheerun/vim-polyglot')
-call minpac#add('vim-jp/vimdoc-ja')
-call minpac#add('mbbill/undotree')
-call minpac#add('scrooloose/nerdtree')
-call minpac#add('simeji/winresizer')
-call minpac#add('FrozenPigs/vim-hy')
-let g:cmd2 = '! ' . 'mkdir -p ' . fnamemodify(g:trans_bin, ':p:h')
-         \ . '&&' . Download('https://git.io/trans', g:trans_bin . '/trans')
-         \ . '&& chmod +x ' . g:trans_bin . '/trans'
-call minpac#add('echuraev/translate-shell.vim', {'do': g:cmd2})
-call minpac#add('kien/rainbow_parentheses.vim')
-call minpac#add('vim-jp/vim-vimlparser')
+"Vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'w0rp/ale'
+Plugin 'morhetz/gruvbox'
+Plugin 'tyru/skk.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'lervag/vimtex'
+Plugin 'vim-jp/vimdoc-ja'
+Plugin 'mbbill/undotree'
+Plugin 'scrooloose/nerdtree'
+Plugin 'simeji/winresizer'
+Plugin 'FrozenPigs/vim-hy'
+Plugin 'echuraev/translate-shell.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'vim-jp/vim-vimlparser'
+call vundle#end()
