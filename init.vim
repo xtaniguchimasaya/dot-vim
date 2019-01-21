@@ -17,6 +17,26 @@ set background=dark
 autocmd QuickFixCmdPost *grep* cwindow
 tnoremap <ESC> <C-\><C-n>
 
+"Vundle
+filetype off
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'w0rp/ale'
+Plugin 'morhetz/gruvbox'
+Plugin 'tyru/skk.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'lervag/vimtex'
+Plugin 'vim-jp/vimdoc-ja'
+Plugin 'mbbill/undotree'
+Plugin 'scrooloose/nerdtree'
+Plugin 'simeji/winresizer'
+Plugin 'FrozenPigs/vim-hy'
+Plugin 'echuraev/translate-shell.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'vim-jp/vim-vimlparser'
+call vundle#end()
+filetype plugin indent on
+
 syntax on
 
 "Trans
@@ -35,14 +55,14 @@ let g:ale_linters = {
 \   'python': ['pyls']
 \}
 let g:ale_rust_rls_toolchain = 'stable'
-let g:ale_fixers = {'asciidoc': ['textlint']}
+let g:ale_fixers = {
+\   'asciidoc': ['textlint']
+\   'typescript': ['eslint', 'prettier']
+\}
 
 "SKK
 let g:skk_large_jisyo = '~/.vim/dict/SKK-JISYO.L.sorted'
 let g:skk_large_jisyo_encoding = 'utf-8'
-
-"ESKK
-let g:eskk#large_dictionary = g:skk_large_jisyo
 
 "colorscheme
 try
@@ -51,9 +71,11 @@ catch
   colorscheme default 
 endtry
 
+"Rainbow Parentheses
 let g:rbpt_max = 7
 let g:rbpt_loadcmd_toggle = 0
 
+"Script
 function! Viml2Sexp() range
     let l:viml_code = getline(a:firstline, a:lastline)
     let l:vimlparser = vimlparser#import()
@@ -68,20 +90,3 @@ function! Viml2Sexp() range
     call append(a:firstline, l:hy_code)
 endfunction
 
-"Vundle
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'w0rp/ale'
-Plugin 'morhetz/gruvbox'
-Plugin 'tyru/skk.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'lervag/vimtex'
-Plugin 'vim-jp/vimdoc-ja'
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/nerdtree'
-Plugin 'simeji/winresizer'
-Plugin 'FrozenPigs/vim-hy'
-Plugin 'echuraev/translate-shell.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'vim-jp/vim-vimlparser'
-call vundle#end()
