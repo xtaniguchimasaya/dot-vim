@@ -34,10 +34,26 @@ Plugin 'FrozenPigs/vim-hy'
 Plugin 'echuraev/translate-shell.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'vim-jp/vim-vimlparser'
+Plugin 'HerringtonDarkholme/yats.vim'
+Plugin 'othree/yajs.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'autozimu/LanguageClient-neovim'
 call vundle#end()
 filetype plugin indent on
 
 syntax on
+
+"LanguageClient-neovim
+function InstallLanguageClient()
+    execute('bash ~/.vim/bundle/LanguageClient-neovim/install.sh')
+endfunction
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'python': ['pyls'],
+    \ }
 
 "Trans
 let g:trans_bin = expand('~/.vim/bin')
@@ -49,15 +65,15 @@ if has('persistent_undo')
 endif
 
 "ALE
-let g:ale_completion_enabled = 1
 let g:ale_linters = {
 \   'rust': ['cargo', 'rls'],
 \   'python': ['pyls']
 \}
 let g:ale_rust_rls_toolchain = 'stable'
 let g:ale_fixers = {
-\   'asciidoc': ['textlint']
-\   'typescript': ['eslint', 'prettier']
+\   'asciidoc': ['textlint'],
+\   'typescript': ['eslint', 'prettier'],
+\   'javascript': ['eslint', 'prettier']
 \}
 
 "SKK
