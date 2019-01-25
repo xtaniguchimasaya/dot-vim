@@ -21,7 +21,8 @@ tnoremap <ESC> <C-\><C-n>
 filetype off
 set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'w0rp/ale'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ta2gch/ale'
 Plugin 'morhetz/gruvbox'
 Plugin 'tyru/skk.vim'
 Plugin 'tpope/vim-surround'
@@ -37,23 +38,10 @@ Plugin 'vim-jp/vim-vimlparser'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'othree/yajs.vim'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'autozimu/LanguageClient-neovim'
 call vundle#end()
 filetype plugin indent on
 
 syntax on
-
-"LanguageClient-neovim
-function InstallLanguageClient()
-    execute('bash ~/.vim/bundle/LanguageClient-neovim/install.sh')
-endfunction
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'python': ['pyls'],
-    \ }
 
 "Trans
 let g:trans_bin = expand('~/.vim/bin')
@@ -72,8 +60,9 @@ let g:ale_linters = {
 let g:ale_rust_rls_toolchain = 'stable'
 let g:ale_fixers = {
 \   'asciidoc': ['textlint'],
+\   'tex': ['textlint'],
 \   'typescript': ['eslint', 'prettier'],
-\   'javascript': ['eslint', 'prettier']
+\   'javascript': ['eslint', 'prettier'],
 \}
 
 "SKK
@@ -90,6 +79,9 @@ endtry
 "Rainbow Parentheses
 let g:rbpt_max = 7
 let g:rbpt_loadcmd_toggle = 0
+
+"Vimtex
+let g:vimtex_complete_enable = 1
 
 "Script
 function! Viml2Sexp() range
