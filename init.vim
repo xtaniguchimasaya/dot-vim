@@ -17,29 +17,27 @@ set background=dark
 autocmd QuickFixCmdPost *grep* cwindow
 tnoremap <ESC> <C-\><C-n>
 
-"Vundle
-filetype off
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ta2gch/ale'
-Plugin 'morhetz/gruvbox'
-Plugin 'tyru/skk.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'lervag/vimtex'
-Plugin 'vim-jp/vimdoc-ja'
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/nerdtree'
-Plugin 'simeji/winresizer'
-Plugin 'FrozenPigs/vim-hy'
-Plugin 'echuraev/translate-shell.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'vim-jp/vim-vimlparser'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'othree/yajs.vim'
-Plugin 'editorconfig/editorconfig-vim'
-call vundle#end()
-filetype plugin indent on
+"Plug
+call plug#begin('~/.vim/plugged')
+Plug 'w0rp/ale'
+Plug 'morhetz/gruvbox'
+Plug 'tyru/skk.vim'
+Plug 'tpope/vim-surround'
+Plug 'lervag/vimtex'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'mbbill/undotree'
+Plug 'scrooloose/nerdtree'
+Plug 'simeji/winresizer'
+Plug 'FrozenPigs/vim-hy'
+Plug 'echuraev/translate-shell.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'vim-jp/vim-vimlparser'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'othree/yajs.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+call plug#end()
 
 syntax on
 
@@ -64,6 +62,20 @@ let g:ale_fixers = {
 \   'typescript': ['eslint', 'prettier'],
 \   'javascript': ['eslint', 'prettier'],
 \}
+
+"LSP
+
+let g:lsp_diagnostics_enabled = 0 
+
+if executable('typescript-language-server')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'typescript-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+        \ 'whitelist': ['typescript'],
+        \ })
+    autocmd FileType typescript setlocal omnifunc=lsp#complete
+endif
 
 "SKK
 let g:skk_large_jisyo = '~/.vim/dict/SKK-JISYO.L.sorted'
