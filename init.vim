@@ -20,7 +20,6 @@ tnoremap <ESC> <C-\><C-n>
 "Vundle
 filetype off
 call plug#begin('~/.vim/plugged')
-Plug 'VundleVim/Vundle.vim'
 Plug 'dense-analysis/ale'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
