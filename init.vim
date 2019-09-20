@@ -19,27 +19,22 @@ tnoremap <ESC> <C-\><C-n>
 
 "Vundle
 filetype off
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ta2gch/ale'
-Plugin 'morhetz/gruvbox'
-Plugin 'tyru/skk.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'lervag/vimtex'
-Plugin 'vim-jp/vimdoc-ja'
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/nerdtree'
-Plugin 'simeji/winresizer'
-Plugin 'FrozenPigs/vim-hy'
-Plugin 'echuraev/translate-shell.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'vim-jp/vim-vimlparser'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'othree/yajs.vim'
-Plugin 'editorconfig/editorconfig-vim'
-call vundle#end()
-filetype plugin indent on
+call plug#begin('~/.vim/plugged')
+Plug 'VundleVim/Vundle.vim'
+Plug 'dense-analysis/ale'
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-surround'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'mbbill/undotree'
+Plug 'simeji/winresizer'
+Plug 'echuraev/translate-shell.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tyru/eskk.vim'
+Plug 'lervag/vimtex'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'othree/yajs.vim'
+call plug#end()
 
 syntax on
 
@@ -47,27 +42,26 @@ syntax on
 let g:trans_bin = expand('~/.vim/bin')
 
 "Undotree
-if has('persistent_undo')
-    set undodir=~/.undodir/
-    set undofile
-endif
+set undodir=~/.undodir/
+set undofile
 
 "ALE
-let g:ale_linters = {
-\   'rust': ['cargo', 'rls'],
-\   'python': ['pyls']
-\}
-let g:ale_rust_rls_toolchain = 'stable'
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_tsserver_autoimport = 1
 let g:ale_fixers = {
-\   'asciidoc': ['textlint'],
-\   'tex': ['textlint'],
-\   'typescript': ['eslint', 'prettier'],
-\   'javascript': ['eslint', 'prettier'],
-\}
+    \   'tex': ['textlint'],
+    \   'javascript': ['eslint'],
+    \   'typescript': ['eslint'],
+    \   'python': ['generic_python'],
+    \   'cpp': ['clangfmt'],
+    \   'go': ['gofmt'],
+    \   'json': ['jq'],
+    \ }
 
-"SKK
-let g:skk_large_jisyo = '~/.vim/dict/SKK-JISYO.L.sorted'
-let g:skk_large_jisyo_encoding = 'utf-8'
+"ESKK
+let g:eskk#large_dictionary = "~/.vim/dict/SKK-JISYO.L"
+let g:eskk#marker_henkan = "?"
+let g:eskk#marker_henkan_select = "!"
 
 "colorscheme
 try
@@ -82,19 +76,3 @@ let g:rbpt_loadcmd_toggle = 0
 
 "Vimtex
 let g:vimtex_complete_enable = 1
-
-"Script
-function! Viml2Sexp() range
-    let l:viml_code = getline(a:firstline, a:lastline)
-    let l:vimlparser = vimlparser#import()
-    let l:reader = l:vimlparser.StringReader.new(viml_code)
-    let l:parser = l:vimlparser.VimLParser.new()
-    let l:compiler = l:vimlparser.Compiler.new()
-    let l:hy_code = l:compiler.compile(l:parser.parse(l:reader))
-    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, 'let =', 'let', 'g') })
-    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, "'\\([^']*\\)'", '"\1"', 'g') })
-    let l:hy_code = map(l:hy_code, { index, code -> substitute(code, '\([^"]\)\([agbsl]\):\(\w*\)', '\1#\2"\3"', 'g') })
-    execute a:firstline.','.a:lastline.'delete'
-    call append(a:firstline, l:hy_code)
-endfunction
-
