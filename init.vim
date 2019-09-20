@@ -33,6 +33,8 @@ Plug 'lervag/vimtex'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'othree/yajs.vim'
+Plug 'rhysd/reply.vim'
+Plug 'wlangstroth/vim-racket'
 call plug#end()
 
 syntax on
