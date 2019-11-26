@@ -14,6 +14,8 @@ set backspace=indent,eol,start
 set breakindent
 set t_Co=256
 set background=dark
+set spell
+set spelllang=en,cjk
 autocmd QuickFixCmdPost *grep* cwindow
 tnoremap <ESC> <C-\><C-n>
 
@@ -25,19 +27,19 @@ Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'mbbill/undotree'
-Plug 'simeji/winresizer'
 Plug 'echuraev/translate-shell.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tyru/eskk.vim'
-Plug 'lervag/vimtex'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'othree/yajs.vim'
 Plug 'rhysd/reply.vim'
-Plug 'wlangstroth/vim-racket'
+Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 syntax on
+
+"Spell
+autocmd Syntax tex syntax match URL /https\?:\/\/[a-zA-Z\/_.#?=-]*/ contains=@NoSpell
+autocmd Syntax tex syntax cluster Spell add=URL
 
 "Trans
 let g:trans_bin = expand('~/.vim/bin')
@@ -50,7 +52,6 @@ set undofile
 set omnifunc=ale#completion#OmniFunc
 let g:ale_completion_tsserver_autoimport = 1
 let g:ale_fixers = {
-    \   'tex': ['textlint'],
     \   'javascript': ['eslint'],
     \   'typescript': ['eslint'],
     \   'python': ['generic_python'],
@@ -60,7 +61,7 @@ let g:ale_fixers = {
     \ }
 
 "ESKK
-let g:eskk#large_dictionary = "~/.vim/dict/SKK-JISYO.L"
+let g:eskk#large_dictionary = "~/.config/nvim/dict/SKK-JISYO.L"
 let g:eskk#marker_henkan = "?"
 let g:eskk#marker_henkan_select = "!"
 
@@ -74,6 +75,3 @@ endtry
 "Rainbow Parentheses
 let g:rbpt_max = 7
 let g:rbpt_loadcmd_toggle = 0
-
-"Vimtex
-let g:vimtex_complete_enable = 1
